@@ -10,8 +10,17 @@
   <hr/>
   <h2>Comments</h2>
   {{#each model.comments as |comment|}}
-    <h4><small>{{moment-from-now comment.timestamp}}</small></h4>
-    <p>{{comment.body}}</p>
+    <div class="media">
+    {{#with comment.author as |author|}}
+      <div class="media-left">
+        <img src="{{author.photoURL}}" class="img-circle" height="64" width="64" />
+      </div>
+    {{/with}}
+      <div class="media-body">
+        <h4 class="media-heading"><small>{{moment-from-now comment.timestamp}}</small></h4>
+        {{comment.body}}
+      </div>
+    </div>
   {{/each}}
 {{/if}}
 <hr/>
