@@ -4,11 +4,15 @@
 <div class="media">
   <div class="media-left">
     {{#with model.author as |author|}}
-      <img src="{{author.photoURL}}" class="img-circle media-object" height="64" width="64" />
+      {{#link-to 'profile.show' author}}
+        <img src="{{author.photoURL}}" class="img-circle media-object" height="64" width="64" />
+      {{/link-to}}
     {{/with}}
   </div>
   <div class="media-body">
-    {{#with model.author as |author|}}<h4>{{author.displayName}}</h4>{{/with}}
+    {{#with model.author as |author|}}
+      <h4>{{#link-to 'profile.show' author}}{{author.displayName}}{{/link-to}}</h4>
+    {{/with}}
     {{moment-from-now model.timestamp}}
     {{#if session.isAuthenticated}}
       &nbsp;{{#link-to 'posts.edit' model class="btn btn-default btn-xs"}}Edit Post{{/link-to}}
@@ -22,7 +26,9 @@
     <div class="media">
     {{#with comment.author as |author|}}
       <div class="media-left">
-        <img src="{{author.photoURL}}" class="img-circle media-object" height="32" width="32" />
+        {{#link-to 'profile.show' author}}
+          <img src="{{author.photoURL}}" class="img-circle media-object" height="32" width="32" />
+        {{/link-to}}
       </div>
     {{/with}}
       <div class="media-body">
