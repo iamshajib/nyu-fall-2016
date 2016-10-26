@@ -9,6 +9,9 @@
       <div class="caption">
         <h4>{{#link-to "posts.show" post}}{{post.title}}{{/link-to}} <small>{{moment-from-now post.timestamp}}</small></h4>
         <p>{{post.body}}</p>
+        {{#if post.comments}}
+          <p>{{#link-to "posts.show" post}}{{post.comments.length}} comments{{/link-to}}</p>
+        {{/if}}
       </div>
     </div>
   </div>

@@ -6,13 +6,21 @@ export default Ember.Route.extend({
   },
   actions: {
     save(model) {
-      if (model.title && model.body) {
-        let post = this.store.createRecord('post', {
-          title: model.title,
-          body: model.body,
-          timestamp: new Date().getTime()
+      let myPost = model;
+      let currentUser = this.get('session.currentUser.uid');
+      let myProfile = this.store.peekRecord('profile', currentUser);
+      if (myProfile && myPost.title && myPost.body) {
+        let newPost = this.store.createRecord('post', {
+          title: myPost.title,
+          body: myPost.body,
+          timestamp: new Date().getTime(),
+          author: myProfile
         });
-        post.save().then( () => this.transitionTo('index'));
+        myProfile.get('posts').addObject(newPost);
+        newPost.save().then(() => {
+          myProfile.save();
+          this.transitionTo('posts.show', newPost);
+        });
       } else {
         alert('Please fill in title and body');
       }

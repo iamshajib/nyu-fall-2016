@@ -8,6 +8,10 @@ export default Ember.Route.extend({
       );
     },
     delete(model){
+      // remove post from profile
+      // delete all comments from post
+      // delete post
+      // save profile
       model.destroyRecord().then(() =>
         this.transitionTo('index')
       );
