@@ -8,13 +8,24 @@ export default Ember.Route.extend({
       );
     },
     delete(model){
-      // remove post from profile
-      // delete all comments from post
-      // delete post
-      // save profile
-      model.destroyRecord().then(() =>
-        this.transitionTo('index')
-      );
+      let post = model;
+
+      let deletions = post.get('comments').map((comment) => {
+        comment.get('author').then((author) => {
+          comment.destroyRecord();
+          author.save();
+        });
+      });
+      
+      // Ensures all comments are deleted before the post
+      Ember.RSVP.all(deletions).then(() => {
+        post.get('author').then((author) => {
+          post.destroyRecord();
+          author.save().then(() => {
+            return this.transitionTo('index');
+          });
+        });
+      });
     },
     cancel(model) {
       model.rollbackAttributes();
