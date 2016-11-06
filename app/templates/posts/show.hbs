@@ -1,4 +1,8 @@
-{{ember-cli-holderjs src_url="holder.js/100px300" class="img-responsive"}}
+{{#if model.imageURL}}
+  <img src="{{model.imageURL}}" class="img-responsive" />
+{{else}}
+  {{ember-cli-holderjs src_url="holder.js/100px300" class="img-responsive"}}
+{{/if}}
 <h1>{{model.title}}</h1>
 <p class="lead">{{model.body}}</p>
 <div class="media">
